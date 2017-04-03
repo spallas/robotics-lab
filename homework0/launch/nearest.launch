@@ -1,0 +1,8 @@
+<launch>
+	<node pkg="homework0" name="near" type="nearest_obstacle.py" output="screen">
+	</node>
+	<node pkg="teleop_twist_keyboard" name="keybord" type="teleop_twist_keyboard.py"/>
+	<node pkg="stage_ros" name="stage" type="stageros" 
+		args="/opt/ros/kinetic/share/stage_ros/world/willow-erratic.world"/>
+</launch>
+

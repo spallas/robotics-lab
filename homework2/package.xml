@@ -1,22 +1,24 @@
 <?xml version="1.0"?>
 <package>
-  <name>homework0</name>
+  <name>homework2</name>
   <version>0.0.0</version>
-  <description>The homework0 package</description>
-
+  <description>The homework2 package</description>
   <maintainer email="spallas2@icloud.com">spallas</maintainer>
-
 
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
   <license>TODO</license>
 
-
- 
+  <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>rospy</build_depend>
+  <build_depend>roscpp</build_depend>
   <build_depend>std_msgs</build_depend>
-  <run_depend>rospy</run_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  
+  <run_depend>roscpp</run_depend>
   <run_depend>std_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

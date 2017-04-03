@@ -11,15 +11,12 @@ pub = rospy.Publisher('nearest_ob', String, queue_size=10)
 
 
 def callback(scan_info):
-    print 'callback called'
     nearest_dist = 'Nearest object at:' + str(min(scan_info.ranges))
-    rospy.loginfo('about to publish info: %s', nearest_dist)
     pub.publish(nearest_dist)
 
 def nearest():
     # subsciber
     rospy.Subscriber('base_scan', LaserScan, callback)
-    rospy.loginfo(">>>>>>>>> Everything ok <<<<<<<<<")
 
     rospy.spin()
 
