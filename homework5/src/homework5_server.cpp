@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
 #include <homework5/ForwardAction.h>
+#include <math.h>
 
 class ForwardAction {
 	protected:
@@ -10,8 +11,12 @@ class ForwardAction {
 		std::string actionName;
 		homework5::ForwardResult result;
 		homework5::ForwardFeedback feedback;
+		ros::Subscriber position_sub;
 		
-		bool success;
+		bool volatile success; // dear compiler do not optimize this var
+		bool  started;
+		float start_x;
+		float start_y;
 		
 	public:
 		ForwardAction(std::string name) : 
@@ -19,18 +24,59 @@ class ForwardAction {
 			actionName(name) // initialization list...
   		{
   			actionServer.start();
+  			position_sub = NHandle.subscribe("odom", 10, &ForwardAction::posistionCB, this);
+  			started = false;
+  			success = false;
+  			distance = 0;
+  			
   		}
   		
   		
   		~ForwardAction(void) {}
+  		
+  		void posistionCB(const nav_msgs::Odometry::ConstPtr& msg) {
+			float x = msg->pose.pose.position.x;
+			float y = msg->pose.pose.position.y;
+			if(!started) {
+				start_x = x;
+				start_y = y;
+				started = true;
+			} else if(distance) {
+				completed_distance = sqrt(pow(x-start_x, 2)+pow(y-start_y,2));
+				if(completed_distance >= distance) {
+					success = true;
+					result.odom = *msg;
+				}
+			}
+		}
   		
   		void executeCB(const homework5::ForwardGoalConstPtr &goal) {
 			
 			float distance = goal->distance;
 			float desired_speed = goal->desired_speed;
 			
+			ros::Publisher pub = NHandle.advertise<geometry_msgs::Twist>("cmd_vel", 100);
 			
-		
+			geometry_msgs::Twist msg;
+			
+			while(!success) {
+				msg.linear.x = desired_speed;
+				pub.publish(msg);
+				
+				if (actionServer.isPreemptRequested() || !ros::ok()) {
+					ROS_INFO("%s: Preempted", actionName.c_str());
+					actionServer.setPreempted();
+					success = false;
+					break;
+				}
+			}
+
+			if(success) {
+				ROS_INFO("%s: Succeeded", actionName.c_str());
+				actionServer.setSucceeded(result);
+			}
+			success = false;
+			started = false;
   		}
 
 };
