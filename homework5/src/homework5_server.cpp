@@ -17,6 +17,7 @@ class ForwardAction {
 		bool  started;
 		float start_x;
 		float start_y;
+		float goal_distance;
 		
 	public:
 		ForwardAction(std::string name) : 
@@ -27,7 +28,7 @@ class ForwardAction {
   			position_sub = NHandle.subscribe("odom", 10, &ForwardAction::posistionCB, this);
   			started = false;
   			success = false;
-  			distance = 0;
+  			goal_distance = 0;
   			
   		}
   		
@@ -41,18 +42,18 @@ class ForwardAction {
 				start_x = x;
 				start_y = y;
 				started = true;
-			} else if(distance) {
-				completed_distance = sqrt(pow(x-start_x, 2)+pow(y-start_y,2));
-				if(completed_distance >= distance) {
+			} else if(goal_distance) {
+				float completed_distance = sqrt(pow(x-start_x, 2)+pow(y-start_y,2));
+				if(completed_distance >= goal_distance) {
 					success = true;
-					result.odom = *msg;
+					result.odom_pose = *msg;
 				}
 			}
 		}
   		
   		void executeCB(const homework5::ForwardGoalConstPtr &goal) {
 			
-			float distance = goal->distance;
+			goal_distance = goal->distance;
 			float desired_speed = goal->desired_speed;
 			
 			ros::Publisher pub = NHandle.advertise<geometry_msgs::Twist>("cmd_vel", 100);
