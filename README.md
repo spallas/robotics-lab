@@ -46,8 +46,7 @@ Consider the action of moving the robot forward for a certain distance with a de
   - Executes the forward motion of the robot until the requested traveled distance is reached
   - Returns as result the robot odometry pose at the end of the execution
   
-  ### homework 6
-  
+### homework 6
   
 Implement a ROS node that:
 - Subscribes on the kinect /cloud topic
