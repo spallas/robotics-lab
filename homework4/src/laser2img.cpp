@@ -48,15 +48,13 @@ void imageCallback(const sensor_msgs::LaserScan::ConstPtr& scan_info) {
 	circle(image, Point(cr, cd), 6, RED, 2);
 
 	// show the first image in a window
-	if(counter == 0) {
-		namedWindow("Display window", WINDOW_AUTOSIZE);
-		imshow("Display window", image);
-		waitKey(0);
-	}
+	imshow("Display window", image);
+	waitKey(20);
+
 	// save images generated for each message
 	stringstream ss;
 	ss << "laser" << ++counter << ".jpg";
-	imwrite(ss.str(), image);
+	//imwrite(ss.str(), image);
 }
 
 
