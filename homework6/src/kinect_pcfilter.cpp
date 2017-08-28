@@ -5,6 +5,8 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
+boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer (new pcl::visualization::PCLVisualizer("3D Viewer"));
+
 void callback(const sensor_msgs::PointCloud2::ConstPtr& pc_message) {
 	
 	pcl::PointCloud<pcl::PointXYZ>::Ptr pcloud_ptr (new pcl::PointCloud<pcl::PointXYZ>);
@@ -22,9 +24,9 @@ void callback(const sensor_msgs::PointCloud2::ConstPtr& pc_message) {
 	pass_through.setFilterFieldName ("z"); 
 	pass_through.filter(*pcloud_ptr);
 	
-	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer (new pcl::visualization::PCLVisualizer("3D Viewer"));
 	viewer->setBackgroundColor(0, 0, 0);
 	pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> single_color(cloud, 0, 255, 0);
+	viewer->removeCloud("Result cloud");
 	viewer->addPointCloud<pcl::PointXYZ>(pcloud_ptr, "Result cloud");
 	viewer->initCameraParameters();
 	viewer->addCoordinateSystem(1.0);
