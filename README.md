@@ -3,7 +3,7 @@ Homeworks for the artificial intelligence laboratory at Sapienza, B.Sc. Engineer
 
 ## Homeworks index
 
-Each forlder in this repository contains the source code requested for the various homeworks. 
+Each folder in this repository contains the source code requested for the various homeworks. 
 The number of the homework doesn't correspond exactly to the ones assigned in class. 
 The following are the specifications that correspond to each homework.
 
@@ -45,4 +45,13 @@ Consider the action of moving the robot forward for a certain distance with a de
   - Receives the desired speed and distance values
   - Executes the forward motion of the robot until the requested traveled distance is reached
   - Returns as result the robot odometry pose at the end of the execution
+  
+### homework 6
+  
+Implement a ROS node that:
+- Subscribes on the kinect /cloud topic
+- Convert the incoming sensor_msgs/PointCloud2 messages in the pcl::PointCloud data structure
+- Apply a voxelization in order to reduce the dimension of the cloud
+- Filter the cloud in order to remove points outside a specified range
+- Visualize the resulting point cloud using the PCL viewer
 
