@@ -1,0 +1,31 @@
+<launch>
+	
+  <master auto="start"/>
+  
+  <node pkg="emergency_stop" name="emergency_stop_node"
+		type="emergency_stop_node" output="screen"/>
+  
+  <node pkg="teleop_twist_keyboard" name="keybord" 
+		type="teleop_twist_keyboard.py"/>
+  
+  <node pkg="stage_ros" name="stage" type="stageros" 
+		args="/opt/ros/kinetic/share/stage_ros/world/willow-erratic.world"/>
+
+<!-- No Sym packages
+
+  <node pkg="thin_state_publisher" type="thin_state_publisher_node" 
+		name="thin_state_publisher_node" 
+		args="$(find emergency_stop)/config/transform.txt" output="screen"/>
+		
+  <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" 
+		name="depthimage_to_laserscan" args="image:=/camera/depth/image_raw" 
+		output="screen"/>
+		
+  <node pkg="srrg_orazio_ros" type="orazio_robot_node" 
+		name="orazio_robot_node" output="screen">
+		<param name="_command_vel_topic" value="/cmd_vel_filtered" />
+  </node>
+
+-->
+	
+</launch>

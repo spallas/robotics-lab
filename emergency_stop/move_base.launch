@@ -1,0 +1,32 @@
+<launch>
+
+  <master auto="start"/>
+  
+  <param name="/use_sim_time" value="true"/>
+
+  <!-- Run the map server -->
+  <node name="map_server" pkg="map_server" type="map_server" 
+	args="$(find emergency_stop)/" />
+
+  <!--- Run AMCL -->	
+  <include file="$(find amcl)/examples/amcl_omni.launch" />
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  
+	<param name="footprint_padding" value="0.01" />
+    <param name="controller_frequency" value="10.0" />
+    <param name="controller_patience" value="3.0" />
+
+    <param name="oscillation_timeout" value="30.0" />
+    <param name="oscillation_distance" value="0.5" />
+  
+    <rosparam file="$(find emergency_stop)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find emergency_stop)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find emergency_stop)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find emergency_stop)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find emergency_stop)/config/base_local_planner_params.yaml" command="load" />
+  </node>
+  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find emergency_stop)/config/single_robot.rviz" />
+  
+</launch>
