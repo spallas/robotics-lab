@@ -1,10 +1,10 @@
 # Artificial Intelligence Laboratory
-Homeworks for the artificial intelligence laboratory at Sapienza, B.Sc. Engineering in Computer Science
+Homework and final project for the artificial intelligence laboratory at Sapienza, B.Sc. Engineering in Computer Science
 
-## Homeworks index
+## Homework index
 
 Each folder in this repository contains the source code requested for the various homeworks. 
-The number of the homework doesn't correspond exactly to the ones assigned in class. 
+The number of each homework doesn't correspond exactly to the ones assigned in class. 
 The following are the specifications that correspond to each homework.
 
 ### homework 0
@@ -54,4 +54,15 @@ Implement a ROS node that:
 - Apply a voxelization in order to reduce the dimension of the cloud
 - Filter the cloud in order to remove points outside a specified range
 - Visualize the resulting point cloud using the PCL viewer
+
+## Final project
+
+### Goal
+Implement a ROS node that is able to stop the robot in case of imminent collision.
+### Specifications
+- read data coming from laser or the kinect's point cloud.
+- subscribe the `cmd_vel` topic in order to evaluate the motion ov the robot.
+- in case a possible collision with an object is detected publish zero on `cmd_vel` or something equivalent.
+
+N.B. move_base already implements obstacle avoidance mechanisms, so the tests will be run with manual guidance.
 
