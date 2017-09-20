@@ -10,7 +10,7 @@ ros::Publisher finalvel_pub;
 geometry_msgs::Twist set_vel;
 
 float stop_param = 0.1;
-float robot_width = 0.35;
+float robot_width = 0.20;
 /**
  * choose your stop_param
  * STAGE: 0.03
@@ -93,12 +93,12 @@ void laserCallback(const sensor_msgs::LaserScan::ConstPtr& scan_info) {
 
 
 void velCallback(const geometry_msgs::Twist::ConstPtr& vel) {
+	stopping = false;
 	set_vel = *vel;
 	if((*vel).linear.x == 0) return;
 	if((*vel).linear.x < 0) {
 		finalvel_pub.publish(*vel);
 	}
-	stopping = false;
 }
 
 
