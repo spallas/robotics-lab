@@ -1,0 +1,1 @@
+Emergency stop ROS node
